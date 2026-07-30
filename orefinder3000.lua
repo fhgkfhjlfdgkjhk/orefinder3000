@@ -383,6 +383,13 @@ end)
 
 local arrowEnabled = true
 
+--// Finds a valid BasePart inside an ore model
+local function GetOrePart(oreModel)
+    return oreModel:FindFirstChildWhichIsA("BasePart")
+        or oreModel:FindFirstChildWhichIsA("MeshPart")
+        or oreModel:FindFirstChildWhichIsA("UnionOperation")
+end
+
 --// BILLBOARD GUI (ARROW + DISTANCE)
 local ArrowGui = Instance.new("BillboardGui")
 ArrowGui.Name = "OreArrow"
@@ -419,10 +426,12 @@ ArrowText.ZIndex = 11
 ArrowText.Parent = ArrowGui
 
 --// UPDATE FUNCTION
-local function UpdateArrowTarget(closestPart, distance)
-    if closestPart then
-        ArrowGui.Adornee = closestPart
-        ArrowText.Text = string.format("%s %dm away", closestPart.Name, math.floor(distance))
+local function UpdateArrowTarget(closestOreModel, distance)
+    local orePart = closestOreModel and GetOrePart(closestOreModel)
+
+    if orePart then
+        ArrowGui.Adornee = orePart
+        ArrowText.Text = string.format("%s %dm away", closestOreModel.Name, math.floor(distance))
     else
         ArrowGui.Adornee = nil
         ArrowText.Text = ""
