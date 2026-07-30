@@ -384,75 +384,43 @@ end)
 local arrowEnabled = true
 
 local ArrowGui = Instance.new("BillboardGui")
+ArrowGui.Name = "OreArrow"
 ArrowGui.Size = UDim2.new(0, 50, 0, 50)
 ArrowGui.AlwaysOnTop = true
 ArrowGui.LightInfluence = 0
 ArrowGui.Enabled = true
+ArrowGui.Parent = game.CoreGui
 
-local ArrowImage = Instance.new("ImageLabel", ArrowGui)
-ArrowImage.Size = UDim2.new(1, 0, 1, 0)
+local ArrowImage = Instance.new("ImageLabel")
+ArrowImage.Name = "ArrowImage"
+ArrowImage.Size = UDim2.new(0, 50, 0, 50)
 ArrowImage.BackgroundTransparency = 1
+ArrowImage.ZIndex = 10
+ArrowImage.Image = ""
 ArrowImage.Image = "https://i.imgur.com/BxjmEXo.png"
 ArrowImage.ImageColor3 = Color3.fromRGB(255, 255, 255)
+ArrowImage.Parent = ArrowGui
 
-UIS.InputBegan:Connect(function(input, gp)
-    if gp then return end
-    if input.KeyCode == Enum.KeyCode.M then
-        arrowEnabled = not arrowEnabled
-        ArrowGui.Enabled = arrowEnabled
-        print("Nearest Ore Arrow:", arrowEnabled)
-    end
-end)
+local ArrowText = Instance.new("TextLabel")
+ArrowText.Name = "ArrowText"
+ArrowText.Size = UDim2.new(0, 100, 0, 20)
+ArrowText.Position = UDim2.new(0.5, -50, 1, 0)
+ArrowText.BackgroundTransparency = 1
+ArrowText.TextColor3 = Color3.fromRGB(255, 255, 255)
+ArrowText.TextStrokeTransparency = 0.5
+ArrowText.TextScaled = true
+ArrowText.ZIndex = 11
+ArrowText.Parent = ArrowGui
 
-local function UpdateArrowTarget()
-    if not arrowEnabled then
-        ArrowGui.Enabled = false
-        return
-    end
-
-    local player = game.Players.LocalPlayer
-    if not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then
-        return
-    end
-
-    local root = player.Character.HumanoidRootPart
-
-    local closestDist = math.huge
-    local closestPart = nil
-
-    for _,ore in ipairs(ORES) do
-        if SavedOreFilters[ore.Name] then
-            for _,obj in ipairs(workspace.Asteroids:GetDescendants()) do
-                if obj.Name == "ID" and obj.Value == ore.ID then
-
-                    local orePart = obj.Parent:FindFirstChildWhichIsA("BasePart")
-                    if orePart then
-                        local dist = (orePart.Position - root.Position).Magnitude
-                        if dist < closestDist then
-                            closestDist = dist
-                            closestPart = orePart
-                        end
-                    end
-
-                end
-            end
-        end
-    end
-
+local function UpdateArrowTarget(closestPart, distance)
     if closestPart then
-        ArrowGui.Parent = game.CoreGui
         ArrowGui.Adornee = closestPart
+        ArrowText.Text = string.format("%s %dm away", closestPart.Name, math.floor(distance))
     else
-        ArrowGui.Parent = nil
+        ArrowGui.Adornee = nil
+        ArrowText.Text = ""
     end
 end
-
-task.spawn(function()
-    while true do
-        UpdateArrowTarget()
-        task.wait(0.2)
-    end
-end)
 
 ---------------------------------------------------------
 -- RADAR (TOGGLE N, DRAGGABLE, ROTATES WITH PLAYER)
