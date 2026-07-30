@@ -397,7 +397,7 @@ ArrowGui.Size = UDim2.new(0, 50, 0, 50)
 ArrowGui.AlwaysOnTop = true
 ArrowGui.LightInfluence = 0
 ArrowGui.Enabled = true
-ArrowGui.Parent = game.CoreGui   -- MUST be CoreGui for loadstring stability
+ArrowGui.Parent = game.CoreGui
 
 --// ARROW ICON
 local ArrowImage = Instance.new("ImageLabel")
@@ -406,7 +406,6 @@ ArrowImage.Size = UDim2.new(0, 50, 0, 50)
 ArrowImage.BackgroundTransparency = 1
 ArrowImage.ZIndex = 10
 
--- Force reload (fixes GitHub RAW invisible character corruption)
 ArrowImage.Image = ""
 ArrowImage.Image = "https://i.imgur.com/BxjmEXo.png"
 
@@ -437,6 +436,7 @@ local function UpdateArrowTarget(closestOreModel, distance)
         ArrowText.Text = ""
     end
 end
+
 
 ---------------------------------------------------------
 -- RADAR (TOGGLE N, DRAGGABLE, ROTATES WITH PLAYER)
