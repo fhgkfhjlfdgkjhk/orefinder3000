@@ -383,24 +383,30 @@ end)
 
 local arrowEnabled = true
 
+--// BILLBOARD GUI (ARROW + DISTANCE)
 local ArrowGui = Instance.new("BillboardGui")
 ArrowGui.Name = "OreArrow"
 ArrowGui.Size = UDim2.new(0, 50, 0, 50)
 ArrowGui.AlwaysOnTop = true
 ArrowGui.LightInfluence = 0
 ArrowGui.Enabled = true
-ArrowGui.Parent = game.CoreGui
+ArrowGui.Parent = game.CoreGui   -- MUST be CoreGui for loadstring stability
 
+--// ARROW ICON
 local ArrowImage = Instance.new("ImageLabel")
 ArrowImage.Name = "ArrowImage"
 ArrowImage.Size = UDim2.new(0, 50, 0, 50)
 ArrowImage.BackgroundTransparency = 1
 ArrowImage.ZIndex = 10
+
+-- Force reload (fixes GitHub RAW invisible character corruption)
 ArrowImage.Image = ""
 ArrowImage.Image = "https://i.imgur.com/BxjmEXo.png"
+
 ArrowImage.ImageColor3 = Color3.fromRGB(255, 255, 255)
 ArrowImage.Parent = ArrowGui
 
+--// DISTANCE TEXT
 local ArrowText = Instance.new("TextLabel")
 ArrowText.Name = "ArrowText"
 ArrowText.Size = UDim2.new(0, 100, 0, 20)
@@ -412,6 +418,7 @@ ArrowText.TextScaled = true
 ArrowText.ZIndex = 11
 ArrowText.Parent = ArrowGui
 
+--// UPDATE FUNCTION
 local function UpdateArrowTarget(closestPart, distance)
     if closestPart then
         ArrowGui.Adornee = closestPart
