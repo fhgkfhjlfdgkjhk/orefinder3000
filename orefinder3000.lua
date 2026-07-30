@@ -392,7 +392,7 @@ ArrowGui.Enabled = true
 local ArrowImage = Instance.new("ImageLabel", ArrowGui)
 ArrowImage.Size = UDim2.new(1, 0, 1, 0)
 ArrowImage.BackgroundTransparency = 1
-ArrowImage.Image = "rbxassetid://6031094663" -- Bold Down Arrow
+ArrowImage.Image = "https://i.imgur.com/BxjmEXo.png"
 ArrowImage.ImageColor3 = Color3.fromRGB(255, 255, 255)
 
 UIS.InputBegan:Connect(function(input, gp)
