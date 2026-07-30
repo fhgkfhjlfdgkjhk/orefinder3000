@@ -440,7 +440,8 @@ local function UpdateArrowTarget()
     end
 
     if closestPart then
-        ArrowGui.Parent = closestPart
+        ArrowGui.Parent = game.CoreGui
+        ArrowGui.Adornee = closestPart
     else
         ArrowGui.Parent = nil
     end
